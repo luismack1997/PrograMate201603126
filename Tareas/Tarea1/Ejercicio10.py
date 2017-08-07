@@ -1,4 +1,4 @@
-#Este ejercicio no esta completo todavia
+#Este ejercicio no está completo todavía
 #-*- coding:utf-8 -*-
 primo=[None]*200001
 primo.insert(1,2)

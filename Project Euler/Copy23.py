@@ -1,6 +1,7 @@
 import math
 abundantespares=[0]*28124
 abundantesimpares=[0]*28124
+abundantes=[0]*28124
 suma=0
 temporal=0
 contadorpares=1
@@ -16,26 +17,31 @@ for x in range(10,28124):
       contadorimpares+=1
     else:
       abundantespares.insert(contadorpares,x)
+      print abundantespares[contadorpares]
       contadorpares+=1
   temporal=0
 
-for x in range(2,28,2):
+for x in range(2,30,2):
   suma+=x
 
 suma+=34
+suma+=46
 
 for x in range(1,28125,2):
   suma+=x
 
-for x in range(947,28125,2):
-    temporal=1
-    while(temporal<contadorimpares+1):
-        for z in range(1,contadorpares+1):
-            if(abundantesimpares[temporal]+abundantespares[z]>x):
-                temporal+=1
-                break
+for x in range(1,contadorimpares+1):
+    for z in range(1,contadorpares+1):
+        if(abundantesimpares[x]+abundantespares[z]>28124):
+            break
         else:
-            if(abundantesimpares[temporal]+abundantespares[z]==x):
-                suma-=x
-                temporal=contadorimpares+1
+            temporal=abundantespares[z]+abundantesimpares[x]
+            if(temporal % 2==1):
+                abundantes[temporal]=temporal
+
 print suma
+
+for x in range(1,28124):
+    suma-=abundantes[x]
+
+print suma-24

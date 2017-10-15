@@ -1,0 +1,72 @@
+\documentclass[11pt,twoside]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english,frenchb,spanish]{babel}
+\usepackage{ifthen}
+\def\localedef#1#2{
+\ifthenelse{ \equal{\locale}{#1} }{
+\selectlanguage{#2}
+\expandafter\def\csname#1\endcsname ##1{##1}
+ }{
+\expandafter\def\csname#1\endcsname ##1{}
+  }
+}
+\providecommand\locale{es}
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{amsfonts, amsmath, amssymb}
+\usepackage[none]{hyphenat}
+\usepackage{dsfont}
+\usepackage{multirow}
+\usepackage{pgfplots}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\cfoot{\thepage}
+\lhead{MackTeck}
+\rhead{\today}
+\begin{document}
+\begin{center}
+\textbf{{\LARGE Datos Consultados}}\
+\end{center}
+\section*{Información:}
+El siguiente es un documento con la información a la que usted accedió
+\\
+Nombre $ de $ usuario: $ Luis$
+\\Correo: $ lm_luis_1997@hotmail.com$
+\\A continuación se presenta una lista de los estados y las estaciones consultadas con su respectiva hora
+\\
+\begin{center}
+\begin{tabular}{| c | c | c| c|c|}
+\hline
+Estados & Estaciones & Hora & Veces Consultadas\\ 
+\hline\hline
+\multirow{4}{10em}\\
+CA & IMPERIAL DAM &  8:20 & 3\\
+\hline
+MI & ADA &  8:20 & 1\\
+\hline
+HI & AAKUKUI 1007 &  8:20 & 1\\
+\hline
+\end{tabular}
+\end{center}
+A continuación se presenta la gráfica de barras
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+	x tick label style={
+		/pgf/number format/1000 sep=},
+	ylabel=Veces Consultadas,
+	enlargelimits=0.05,
+	legend style={at={(0.5,-0.1)},
+	anchor=north,legend columns=-1},
+	ybar interval=0.7,
+]
+\addplot 
+	coordinates {(2012,1) (2011,2)
+		 (2010,3) (2009,1) (2015,4)};
+\legend{Nombre}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{document}

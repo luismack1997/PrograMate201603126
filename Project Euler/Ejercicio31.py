@@ -1,5 +1,6 @@
 #-*- coding:utf-8 -*-
 #Primero crearemos nuestra variable que sumar� todos los n�meros
+
 cantidad=0
 #Luego crearemos una variable suma la cual nos dir� cuando una suma da la cantidad deseada.
 SumaDeseada=200

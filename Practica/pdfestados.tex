@@ -1,0 +1,48 @@
+\documentclass[11pt,twoside]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english,frenchb,spanish]{babel}
+\usepackage{ifthen}
+\def\localedef#1#2{
+\ifthenelse{ \equal{\locale}{#1} }{
+\selectlanguage{#2}
+\expandafter\def\csname#1\endcsname ##1{##1}
+ }{
+\expandafter\def\csname#1\endcsname ##1{}
+  }
+}
+\providecommand\locale{es}
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{amsfonts, amsmath, amssymb}
+\usepackage[none]{hyphenat}
+\usepackage{dsfont}
+\usepackage{multirow}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\cfoot{\thepage}
+\lhead{MackTeck}
+\rhead{\today}
+\begin{document}
+\begin{center}
+\textbf{{\LARGE Datos Consultados}}\
+\end{center}
+\section*{Información:}
+El siguiente es un documento con la información a la que usted accedió
+\\
+Nombre $ de $ usuario: $ Luis$
+\\Correo: $ lm_luis_1997@hotmail.com$
+\\A continuación se presenta una lista de los estados y las estaciones consultadas con su respectiva hora
+\\
+\begin{center}
+\begin{tabular}{| c| c | c| c|c|}
+\hline
+Estados & Estaciones & Hora & Veces Consultadas\\ 
+\hline\hline
+\multirow{4}{10em}\\
+DE & MILLSBORO &  16:45 & 1\\
+\hline
+\end{tabular}
+\end{center}
+\end{document}

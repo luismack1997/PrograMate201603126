@@ -24,6 +24,7 @@ ubicacionestaciones='stations.json'
 ubicacionapedir='infoapedir.json'
 ubicacionhtml='infohtml.html'
 ubicaciongrafica='grafica.png'
+ubicaciontemperatura='temperatura.json'
 
 class Ubicacion():
     def ObtenerUbicaciones(self):
@@ -43,6 +44,8 @@ class Ubicacion():
         ubicacionhtml=os.path.dirname( os.path.realpath(__file__) )+"\\"+ubicacionhtml
         global ubicaciongrafica
         ubicaciongrafica=os.path.dirname(os.path.realpath(__file__))+"\\"+ubicaciongrafica
+        global ubicaciontemperatura
+        ubicaciontemperatura=os.path.dirname(os.path.realpath(__file__))+"\\"+ubicaciontemperatura
         Menus().MenuPrincipal()
 
 class Datos():
@@ -89,6 +92,12 @@ class Datos():
         json_file=open(ubicacionapedir,"r")
         estacion=json.load(json_file)
         json_file.close()
+        infoapedir2=" & curl -H \"token:SSlIaWEESJKxGWGWMIkXDcNAEcPPqMIi\" \"https://www.ncdc.noaa.gov/cdo-web/api/v2/datacategories?stationin="+id
+        cadenaCompilacion2 = "cd " +  os.path.dirname( os.path.realpath(__file__) )+ infoapedir2 +"&limit=100\" >temperatura.json"
+        subprocess.Popen(cadenaCompilacion2, shell=True, stdout =subprocess.PIPE).stdout.read()
+        json_file2=open(ubicaciontemperatura,"r")
+        estacion2=json.load(json_file2)
+        json_file2.close()
         if "name" in estacion.keys():
             s1="Nombre: "+estacion["name"]
             #s2="Fecha Mínima: "+estacion["mindate"].decode('utf-8')
@@ -108,21 +117,61 @@ class Datos():
             #print s7
             print s8
             #print s9
-            estado=estacion["name"][estacion["name"].index(",")+2:]
-            estado=estado[:estado.index(" ")]
-            nombre=estacion["name"][:estacion["name"].index(",")]
-            Cierre().AgregarDatos(estado, nombre)
-            raw_input("Ingrese cualquier tecla para regresar\n")
-            os.system('CLS')
-            Menus().MenuDatos1()
+            print "A continuación le muestro los datos meteorológicos disponibles (100 es el límite)"
+            print "Estos son los posibles datos que puede mostrar la estación, no todas los miden y tienen data"
+            for x in range(0,len(estacion2['results'])):
+                temporal=str(x+1)+") Nombre: "+estacion2["results"][x]["name"]+"*****Id: "+estacion2["results"][x]["id"]
+                print temporal
+            elecc=raw_input("Ingrese el número del dato que desea consultar o cualquier tecla para regresar\n")
+            try:
+                int(elecc)
+                if int(elecc)>0 and int(elecc)<=len(estacion2['results']):
+                    self.MostrarDatoEspecifico(id,estacion2["results"][int(elecc)-1]["id"])
+                else:
+                    estado=estacion["name"][estacion["name"].index(",")+2:]
+                    estado=estado[:estado.index(" ")]
+                    nombre=estacion["name"][:estacion["name"].index(",")]
+                    Cierre().AgregarDatos(estado, nombre)
+                    os.system('CLS')
+                    Menus().MenuDatos1()
+            except:
+                estado=estacion["name"][estacion["name"].index(",")+2:]
+                estado=estado[:estado.index(" ")]
+                nombre=estacion["name"][:estacion["name"].index(",")]
+                Cierre().AgregarDatos(estado, nombre)
+                os.system('CLS')
+                Menus().MenuDatos1()
         else:
             os.system('CLS')
             print "La estación que ingresó no es válida"
             Menus().MenuDatos1()
 
+    def MostrarDatoEspecifico(self, id, dato):
+        infoapedir=" & curl -H \"token:SSlIaWEESJKxGWGWMIkXDcNAEcPPqMIi\" \"https://www.ncdc.noaa.gov/cdo-web/api/v2/datatypes?stationid="+id+"&datacategoryid="+dato
+        cadenaCompilacion = "cd " +  os.path.dirname( os.path.realpath(__file__) )+ infoapedir +"&limit=100\" >temperatura.json"
+        subprocess.Popen(cadenaCompilacion, shell=True, stdout =subprocess.PIPE).stdout.read()
+        json_file=open(ubicaciontemperatura,"r")
+        estacion=json.load(json_file)
+        json_file.close()
+        print "A continuación se muestran los datos disponibles que pediste (máx 100)"
+        try:
+            for x in range(0,len(estacion["results"])):
+                try:
+                    print str(x+1)+") Nombre: "+estacion["results"][x]["name"], estacion["results"][x]["maxdate"]
+                except:
+                    print str(x+1)+") Nombre: "+estacion["results"][x]["name"]
+            raw_input("Preciona cualquier tecla para regresar")
+            os.system('CLS')
+            self.MostrarDatosdeEstacion(id)
+        except:
+            os.system('CLS')
+            print "Error 402, archivo no encontrado, no hay datos disponibles sobre esta categoría"
+            raw_input("Preciona cualquier tecla para regresar")
+            self.MostrarDatosdeEstacion(id)
+
     def MostarEstacionesPorEstados(self,id):
         estadoapedir=" & curl -H \"token:SSlIaWEESJKxGWGWMIkXDcNAEcPPqMIi\" \"https://www.ncdc.noaa.gov/cdo-web/api/v2/stations?locationid="+id
-        cadenaCompilacion = "cd " +  os.path.dirname( os.path.realpath(__file__) )+ estadoapedir +"\" >stations.json"
+        cadenaCompilacion = "cd " +  os.path.dirname( os.path.realpath(__file__) )+ estadoapedir +"&limit=1000\" >stations.json"
         subprocess.Popen(cadenaCompilacion, shell=True, stdout =subprocess.PIPE).stdout.read()
         json_file=open(ubicacionestaciones,"r")
         estaciones=json.load(json_file)
@@ -151,6 +200,38 @@ class Datos():
             print "No es una opción válida"
             json_file.close()
             self.MostarEstacionesPorEstados(id)
+
+    def MostrarEstaciones(self):
+        estadoapedir=" & curl -H \"token:SSlIaWEESJKxGWGWMIkXDcNAEcPPqMIi\" \"https://www.ncdc.noaa.gov/cdo-web/api/v2/stations"
+        cadenaCompilacion = "cd " +  os.path.dirname( os.path.realpath(__file__) )+ estadoapedir+"?limit=1000\" >stations.json"
+        subprocess.Popen(cadenaCompilacion, shell=True, stdout =subprocess.PIPE).stdout.read()
+        json_file=open(ubicacionestaciones,"r")
+        estaciones=json.load(json_file)
+        json_file.close()
+        for x in range(0,len(estaciones['results'])):
+            s1=str(x+1)+") "+estaciones["results"][x]["name"]
+            print s1
+        elecc=raw_input("Ingrese 0 para regresar o el número de la estación que desea consultar\n")
+        try:
+            int(elecc)
+        except:
+            os.system('CLS')
+            print "No es una opción válida"
+            json_file.close()
+            self.MostrarEstaciones()
+        if int(elecc)==0:
+            json_file.close()
+            os.system('CLS')
+            Menus().MenuDatos1()
+        elif int(elecc)<len(estaciones['results'])+1 and int(elecc)>0:
+            os.system('CLS')
+            self.MostrarDatosdeEstacion(estaciones['results'][int(elecc)-1]["id"])
+            json_file.close()
+        else:
+            os.system('CLS')
+            print "No es una opción válida"
+            json_file.close()
+            self.MostrarEstaciones()
 
 
 class Cierre():
@@ -187,18 +268,25 @@ class Cierre():
 
         filename1=ubicacionpdf
         filename2=ubicacionhtml
+        filename3=ubicaciongrafica
         attachment  =open(filename1,'rb')
         attachment2 =open(filename2,'rb')
+        attachment3 =open(filename3,'rb')
         part = MIMEBase('application','octet-stream')
         part.set_payload((attachment).read())
         part2 = MIMEBase('application','octet-stream')
         part2.set_payload((attachment2).read())
+        part3 = MIMEBase('application','octet-stream')
+        part3.set_payload((attachment3).read())
         encoders.encode_base64(part)
         encoders.encode_base64(part2)
+        encoders.encode_base64(part3)
         part.add_header('Content-Disposition',"attachment; filename= "+filename1)
         msg.attach(part)
         part2.add_header('Content-Disposition',"attachment; filename= "+filename2)
         msg.attach(part2)
+        part3.add_header('Content-Disposition',"attachment; filename= "+filename3)
+        msg.attach(part3)
         text = msg.as_string()
         server = smtplib.SMTP('smtp.live.com',587)
         server.starttls()
@@ -428,7 +516,8 @@ class Cierre():
         if num_lines>5:
             fichero.write('<p> A continuación se muestra la gráfica de lo consultado </p>')
             fichero.write('\n')
-            fichero.write('<img src=\"grafica.png\"/>')
+            temporal3='<img src=\"'+ubicaciongrafica+'\"/>'
+            fichero.write(temporal3)
             fichero.write('\n')
         fichero.write('</body>')
         fichero.write('\n')
@@ -623,8 +712,9 @@ class Menus():
         print("Bienvenido ¿Qué desea hacer?")
         print("1) Ver estados")
         print("2) Ingresar Estación")
-        print("3) Cerrar Sesión")
-        elecc=raw_input("4) Salir\n")
+        print("3) Mostrar estaciones disponibles (1000 es el límite)")
+        print("4) Cerrar Sesión")
+        elecc=raw_input("5) Salir\n")
         if elecc=="":
             os.system('ClS')
             print "No es una opción válida"
@@ -638,8 +728,11 @@ class Menus():
             Datos().MostrarDatosdeEstacion(elecc2)
         elif elecc=="3":
             os.system('CLS')
-            Cierre().CrearGrafica("cerrar")
+            Datos().MostrarEstaciones()
         elif elecc=="4":
+            os.system('CLS')
+            Cierre().CrearGrafica("cerrar")
+        elif elecc=="5":
             os.system('CLS')
             Cierre().CrearGrafica("salir")
         else:

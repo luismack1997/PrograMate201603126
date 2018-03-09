@@ -1,0 +1,16 @@
+{% extends 'usuario/base.html'%}
+
+{% block body2 %}
+    <h1>Bienvenido {{text.Nombres}} {{text.Apellidos}}</h1>
+    <h3> MackTechSolutions te Saluda</h3>
+    <ul>
+        <li>Nombre de Usuario: {{text.Usuario}}</li><br>
+        <li>A continuación te presento tus datos</li><br>
+        <li>CUI: {{text.CUI}}</li><br>
+        <li>Carrera: {{text.Carrera}}</li><br>
+        <li>Correo: {{text.Correo}}</li>
+    </ul>
+    {% if error_massage %} 
+        <p><strong>{{error_massage}}</strong></p>
+    {% endif %}
+{% endblock %}

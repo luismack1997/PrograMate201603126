@@ -1,0 +1,32 @@
+{% extends 'usuario/base.html'%}
+
+{% block bg %}<link rel="stylesheet" type="text/css" href="/static/usuario/style.css"/>﻿{% endblock %}
+
+{% block body1 %}
+<div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <li class=> 
+                <a href="{% url 'usuario:registro' %}">
+                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;
+                Registrame
+                </a>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav">
+            <li class=> 
+                <a href="{% url 'usuario:ingreso' %}">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;
+                    Ingresar
+                </a>
+            </li>
+        </ul>
+{% endblock %}
+
+{% block body2 %}
+<h3>Bienvenido a MackTechSolutions</h3>
+<ul>
+    <li><a href="{% url 'usuario:registro' %}">Registrame </a></li><br>
+    <li><a href="{% url 'usuario:ingreso' %}">Ingresar </a></li><br>
+</ul>
+{% endblock %}
+

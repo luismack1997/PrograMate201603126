@@ -9,6 +9,10 @@
         <li>CUI: {{text.CUI}}</li><br>
         <li>Carrera: {{text.Carrera}}</li><br>
         <li>Correo: {{text.Correo}}</li>
+    <h3> A continuación te muestro tus textos</h3>
+    {%for obj in p%}
+    <li> <a href="url">{{obj.Name}}</a></li>
+    {% endfor %}
     </ul>
     {% if error_massage %} 
         <p><strong>{{error_massage}}</strong></p>

@@ -1,0 +1,13 @@
+{% extends 'usuario/base.html'%}
+
+{% block body2 %}
+    <h1>A continuación te muestro tus textos</h1>
+    <ul>
+        <li>        {% for obj in images %}   {% endfor %}</li><br>
+        <li>Data</li><br>
+    <h3> A continuación te muestro tus textos</h3>
+    </ul>
+    {% if error_massage %} 
+        <p><strong>{{error_massage}}</strong></p>
+    {% endif %}
+{% endblock %}

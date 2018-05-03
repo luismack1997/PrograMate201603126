@@ -4,7 +4,8 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.db import models
 from django.contrib import messages
 from django.core.validators import RegexValidator
-
+from django.core.urlresolvers import reverse
+from django.core.validators import FileExtensionValidator
 # Create your models here.
 class Usuarios(models.Model):
     TIPOS_CIENTIFICOS={
@@ -21,3 +22,12 @@ class Usuarios(models.Model):
     phone_regex = RegexValidator(regex=r'^\+?1?\d{13}$', message="Debes ingresar un número de 13 dígitos")
     CUI=models.CharField(validators=[phone_regex], max_length=17, blank=True)
     EstaActivo=models.CharField(max_length=20,default="No")
+    def get_absolute_url(self):
+        return reverse('usuario:detail', kwargs={'pk':self.pk})
+
+class Textos(models.Model): 
+    Name=models.CharField(max_length=20)
+    Tex_id=models.AutoField(primary_key=True)
+    Texto=models.FileField(upload_to="archivos", validators=[FileExtensionValidator(allowed_extensions=['pdf', 'pm2'])])
+
+

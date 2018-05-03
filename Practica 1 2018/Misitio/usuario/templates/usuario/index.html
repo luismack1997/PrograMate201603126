@@ -24,9 +24,8 @@
 
 {% block body2 %}
 <h3>Bienvenido a MackTechSolutions</h3>
-<ul>
-    <li><a href="{% url 'usuario:registro' %}">Registrame </a></li><br>
-    <li><a href="{% url 'usuario:ingreso' %}">Ingresar </a></li><br>
+<ul><a class="btn btn-primary" href="{% url 'usuario:registro' %}">Registrame</a>
+    <a class="btn btn-primary" href="{% url 'usuario:ingreso' %}">Ingresar</a>
 </ul>
 {% endblock %}
 

@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Página web Programación Matemática</title>
+ </head>
+<body>
+<h1>  Información </h1>
+<p> El siguiente es un documento con tu texto analizado </p>
+<p><span style="color: #808B96">Tesla</span> <span style="color: #808B96">Newton</span> <span style="color: #27AE60">1.222</span> yo había comido pan con Hilber <span style="color: #0000FF">145</span> <span style="color: #27AE60">1.222</span></p><img src="Tesla.jpg"/><img src="Newton.jpg"/>

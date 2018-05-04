@@ -1,4 +1,5 @@
-
+# -*- coding: utf-8 -*-
+import os
 A=0
 B=1
 C=2
@@ -171,6 +172,41 @@ class DFA:
 
 
 Automata=DFA(states,accept_states,alphabet,start_states,tf)
-newtexto=Automata.Aceptador('Alan Mathison Turing, OBE (Paddington, Londres, 23 de junio de 1912-Wilmslow, Cheshire, 7 de junio de 1954), fue un matemático, lógico, científico de la computación, criptógrafo, filósofo, maratoniano y corredor de ultra distancia británico. Es considerado uno de los padres de la ciencia de la computación y precursor de la informática moderna. Proporcionó una influyente formalización de los conceptos de algoritmo y computación: la máquina de Turing. Formuló su propia versión de la hoy ampliamente aceptada tesis de Church-Turing (1936).')
-print newtexto
-print imagenes
+Cientificos={"Hilbert", "Turing","Euler","Fermat","Pitágoras","Boole","Cantor","Perelman","Newton","Einstein","Galileo","Tesla"}
+
+def Lector(nombre):
+    nombre=os.path.dirname( os.path.realpath(__file__) )+"\\"+nombre+'.pdf'
+    analizado=os.path.dirname( os.path.realpath(__file__) )+"\\"+"analizado.html"
+    fichero=open(nombre,'r')
+    #texto=fichero.read()
+    texto="esta es una oración con 1 a -1 b 0 -50.5 c Turing 100.33 5i l 1+1.5i l -0.35i 0.514^-0.5 0.25^-45 Hilbert Galileo Tesla"
+    fichero.close()
+    fichero=open(analizado, 'w')
+    fichero.write('<!DOCTYPE html>')
+    fichero.write("\n")
+    fichero.write('<html>')
+    fichero.write("\n")
+    fichero.write('<head>')
+    fichero.write("\n")
+    fichero.write('<meta charset=\"utf-8\">')
+    fichero.write("\n")
+    fichero.write('<title>Página web Programación Matemática</title>')
+    fichero.write("\n")
+    fichero.write(' </head>')
+    fichero.write("\n")
+    fichero.write('<body>')
+    fichero.write("\n")
+    fichero.write('<h1>  Información </h1>')
+    fichero.write("\n")
+    fichero.write('<p> El siguiente es un documento con tu texto analizado </p>')
+    fichero.write("\n")
+    newtexto=Automata.Aceptador(texto)
+    fichero.write(newtexto)
+    for imagen in imagenes: 
+        if imagen in Cientificos:
+            temporal='<img src=\"'+imagen+'.jpg'+'\"/>'
+            fichero.write(temporal)
+        else: 
+            pass
+    
+Lector('algebra')

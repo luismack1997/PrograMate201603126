@@ -31,13 +31,13 @@ class IndexView(TemplateView):
 def mandarCorreo(username):
     #client_ip = request.META.get('HTTP_X_FORWARDED_FOR') 
     now = datetime.datetime.now()
-    #mail_subject = 'Notificación de Ingreso'
-    #message = "Hola tu fecha, hora e ip de ingreso son: "+str(now.day)+"/"+str(now.month)+"/"+str(now.year)+ ", " +str(now.hour)+":"+str(now.minute) + ", " #+client_ip           
-    #to_email=Usuarios.objects.get(pk=username).Correo
-    #email = EmailMessage(
-    #    mail_subject, message, to=[to_email]
-    #)
-    #email.send()
+    mail_subject = 'Notificación de Ingreso'
+    message = "Hola tu fecha, hora e ip de ingreso son: "+str(now.day)+"/"+str(now.month)+"/"+str(now.year)+ ", " +str(now.hour)+":"+str(now.minute) #+ ", " #+client_ip           
+    to_email=Usuarios.objects.get(pk=username).Correo
+    email = EmailMessage(
+        mail_subject, message, to=[to_email]
+    )
+    email.send()
 
 def detail(request,Usuario):
     if a==Usuario: 

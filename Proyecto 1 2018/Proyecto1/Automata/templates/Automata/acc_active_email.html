@@ -1,0 +1,5 @@
+{% autoescape off %}
+Hola {{ user.Usuario}},
+Por favor da click en el link para confirmar tu correo,
+http://{{ domain }}{% url 'usuario:activate' uidb64=uid token=token %}
+{% endautoescape %}

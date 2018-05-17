@@ -1,0 +1,10 @@
+body{
+    background: white url("images/background2.jpg")
+}
+.nav-bar{
+    border-radius: 0;
+}
+
+.nav-brand{
+    font-family: 'Satisface', cursive;
+}

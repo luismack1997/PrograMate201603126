@@ -1,0 +1,41 @@
+{% extends 'usuario/base.html'%}
+
+{% block bg %}<link rel="stylesheet" type="text/css" href="/static/usuario/style.css"/>﻿{% endblock %}
+
+{% block body1 %}
+<div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <li class=> 
+                <a href="{% url 'usuario:index' %}">
+                <span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span>&nbsp;
+                Regresar
+                </a>
+            </li>
+        </ul>
+{% endblock %}
+
+{% block body2 %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-7">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form class="form-horizontal" method="POST" action=".">
+                        {% csrf_token %}
+                        {% include 'usuario/form-template.html' %} 
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-success">
+                                        Guardar
+                                    </button>
+                                </div>
+                            </div>               
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

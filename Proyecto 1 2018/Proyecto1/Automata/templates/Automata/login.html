@@ -1,0 +1,61 @@
+{% extends 'usuario/base.html'%}
+
+{% block bg %}<link rel="stylesheet" type="text/css" href="/static/usuario/style.css"/>﻿{% endblock %}
+
+{% block body1 %}
+<div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <li class=> 
+                <a href="{% url 'usuario:index' %}">
+                <span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span>&nbsp;
+                Regresar
+                </a>
+            </li>
+        </ul>
+{% endblock %}
+
+{% block body2 %}
+<h3>Bienvenido a MackTechSolutions</h3>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-7">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form class="form-horizontal" role="form" method="POST" action=".">
+                        {% csrf_token %}
+                        <div class="form-group">
+                                <div class="col-sm-offset-2 coll-sm-10">
+                                    <span class="text-danger small">{{ field.errors }}</span>
+                                </div>
+                                <label class="control-label col-sm-1">
+                                     Nombre Usuario:
+                                     <div class="col-sm-10">
+                                         {{ form.Usuario }}
+                                     </div>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                    <div class="col-sm-offset-2 coll-sm-10">
+                                        <span class="text-danger small">{{ field.errors }}</span>
+                                    </div>
+                                    <label class="control-label col-sm-1">
+                                         Contraseña:
+                                         <div class="col-sm-10">
+                                             {{ form.contrasena }}
+                                         </div>
+                                    </label>
+                                </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-success">
+                                        Ingresar
+                                    </button>
+                                </div>
+                            </div>               
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

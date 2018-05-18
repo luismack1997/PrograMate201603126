@@ -52,18 +52,28 @@ def convertidor(texto):
             if agregador>0:
                 if newtexto[-1]=='.': 
                     newtexto=newtexto[:-1]
-                    newtexto=newtexto+'|'
+                    if caracter in Unarios:
+                        newtexto=newtexto+'|'+caracter
+                    else: 
+                        newtexto=newtexto+'|'+caracter+'.'
                     agregador-=1
                     temporal2-=1
                 else: 
-                    newtexto=newtexto+'|'
+                    if caracter in Unarios:
+                        newtexto=newtexto+'|'+caracter
+                    else: 
+                        newtexto=newtexto+'|'+caracter+'.'
                     agregador-=1
                     temporal2-=1
+            elif caracter in Unarios: 
+                    newtexto=newtexto+caracter
+                    temporal2-=1
+                    temporal=''
             else: 
-                newtexto=newtexto+'|'
-                agregador-=1
-                temporal2-=1
-        if caracter=='|':
+                    newtexto=newtexto+caracter+"."
+                    temporal=''
+                    temporal2-=1
+        elif caracter=='|':
             if contador_parentesis_iz>0:
                 agregador+=1
             elif ora==0:

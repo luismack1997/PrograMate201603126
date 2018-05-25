@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+import subprocess
 from django.shortcuts import render
 from django.views.generic import TemplateView
-
-
+from collections import defaultdict
+import os
+ubicacionlatex='automata.tex'
 
 # Convertidor---------------------------------------------------------------------------------------------------------------------------------------------------SS
 Caracteres_Especiales={'+','?','*', '|','.'} 
@@ -112,6 +113,260 @@ def convertidor(texto):
     
 
 # Convetidor--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#thompson AFD
+def ThompsonExp(texto):
+    ftThom={}    
+    estadoinicial=0
+    estadofinal=0
+    estadoinicial2=0
+    estadofinal2=0
+    estadoinicial3=0
+    estadoinicial3=0
+    noEstados=0   
+    operador1=0
+    noEstadosNeg=0
+    ftThom = defaultdict(dict)
+    for caracter in texto:
+        if caracter not in Caracteres_Especiales:
+            noEstados+=2
+            a=noEstados-2
+            b=noEstados-1
+            ftThom[a]={caracter:b}
+            if operador1==0:
+                estadoinicial=a
+                estadofinal=b
+                operador1=1
+            elif operador1==1:
+                estadoinicial2=a
+                estadofinal2=b
+                operador1=2
+            elif operador1==2:
+                estadoinicial3=a
+                estadofinal3=b
+                operador1=3
+        elif caracter=='.':
+            if operador1==2:
+                ftThom[estadofinal].update(ftThom[estadoinicial2])
+                estadofinal=estadofinal2
+                operador1=1
+                del ftThom[estadoinicial2]
+            elif operador1==3:
+                ftThom[estadofinal2]=ftThom[estadoinicial3]
+                estadofinal2=estadofinal3
+                operador1=2
+                del ftThom[estadoinicial3]
+
+
+        elif caracter=='|':
+            noEstadosNeg-=1
+            ftThom[noEstadosNeg].update({'ep':estadoinicial})
+            ftThom[noEstadosNeg].update({'ep1':estadoinicial2})
+            estadoinicial=noEstadosNeg
+            ftThom[estadofinal].update({'ep':noEstados})
+            ftThom[estadofinal2].update({'ep':noEstados})
+            estadofinal=noEstados
+            noEstados+=1
+            operador1=1
+
+        elif caracter=='+':
+            if operador1==1:
+                try: 
+                    ftThom[estadofinal].update({'ep':estadoinicial})
+                except:
+                    ftThom[estadofinal]={'ep':estadoinicial}
+                noEstadosNeg-=1
+                ftThom[noEstadosNeg]={'ep':estadoinicial}
+                estadoinicial=noEstadosNeg
+                ftThom[estadofinal].update({'ep1':noEstados})
+                estadofinal=noEstados
+                noEstados+=1
+            elif operador1==2:
+                try: 
+                    ftThom[estadofinal2].update({'ep':estadoinicial2})
+                except:
+                    ftThom[estadofinal2]={'ep':estadoinicial2}
+                noEstadosNeg-=1
+                ftThom[noEstadosNeg]={'ep':estadoinicial2}
+                estadoinicial2=noEstadosNeg
+                ftThom[estadofinal2].update({'ep1':noEstados})
+                estadofinal2=noEstados
+                noEstados+=1
+            elif operador1==3:
+                try: 
+                    ftThom[estadofinal3].update({'ep':estadoinicial3})
+                except:
+                    ftThom[estadofinal3]={'ep':estadoinicial3}
+                noEstadosNeg-=1
+                ftThom[noEstadosNeg]={'ep':estadoinicial3}
+                estadoinicial3=noEstadosNeg
+                ftThom[estadofinal3].update({'ep1':noEstados})
+                estadofinal3=noEstados
+                noEstados+=1
+
+
+        elif caracter=='?':
+            if operador1==1:
+                ftThom[estadoinicial].update({'ep':estadofinal})
+            elif operador1==2:
+                ftThom[estadoinicial2].update({'ep':estadofinal2})
+            elif operador1==3:
+                ftThom[estadoinicial3].update({'ep':estadofinal3})
+        
+        elif caracter=='*':
+            if operador1==1:
+                try: 
+                    ftThom[estadofinal].update({'ep':estadoinicial})
+                except:
+                    ftThom[estadofinal]={'ep':estadoinicial}
+                noEstadosNeg-=1
+                ftThom[noEstadosNeg]={'ep':estadoinicial}
+                estadoinicial=noEstadosNeg
+                ftThom[estadofinal].update({'ep1':noEstados})
+                estadofinal=noEstados
+                noEstados+=1
+                try: 
+                    ftThom[estadoinicial].update({'ep1':estadofinal})
+                except:
+                    ftThom[estadoinicial]={'ep1':estadofinal}
+            elif operador1==2:
+                try: 
+                    ftThom[estadofinal2].update({'ep':estadoinicial2})
+                except:
+                    ftThom[estadofinal2]={'ep':estadoinicial2}
+                noEstadosNeg-=1
+                ftThom[noEstadosNeg]={'ep':estadoinicial2}
+                estadoinicial2=noEstadosNeg
+                ftThom[estadofinal2].update({'ep1':noEstados})
+                estadofinal2=noEstados
+                noEstados+=1
+                try: 
+                    ftThom[estadoinicial2].update({'ep1':estadofinal2})
+                except:
+                    ftThom[estadoinicial2]={'ep1':estadofinal2}
+            elif operador1==3:
+                try: 
+                    ftThom[estadofinal3].update({'ep':estadoinicial3})
+                except:
+                    ftThom[estadofinal3]={'ep':estadoinicial3}
+                noEstadosNeg-=1
+                ftThom[noEstadosNeg]={'ep':estadoinicial3}
+                estadoinicial3=noEstadosNeg
+                ftThom[estadofinal3].update({'ep1':noEstados})
+                estadofinal3=noEstados
+                noEstados+=1
+                try: 
+                    ftThom[estadoinicial3].update({'ep1':estadofinal3})
+                except:
+                    ftThom[estadoinicial3]={'ep1':estadofinal3}
+    global ubicacionlatex
+    ubicacionlatex=os.path.dirname( os.path.realpath(__file__) )+"\\"+ubicacionlatex
+    fichero = open(ubicacionlatex, 'w')
+    fichero.write('\\documentclass[11pt,twoside]{article}')
+    fichero.write("\n")
+    fichero.write('\\usepackage{fancyhdr}')
+    fichero.write('\n')
+    fichero.write('\\usepackage{amsfonts, amsmath, amssymb}')
+    fichero.write('\n')
+    fichero.write('\\usepackage[none]{hyphenat}')
+    fichero.write('\n')
+    fichero.write('\\usepackage{dsfont}')
+    fichero.write('\n')
+    fichero.write('\\usepackage{tikz}')
+    fichero.write('\n')
+    fichero.write('\\usetikzlibrary{automata,positioning}')
+    fichero.write('\n')
+    fichero.write('\\pagestyle{fancy}')
+    fichero.write('\n')
+    fichero.write('\\fancyhf{}')
+    fichero.write('\n')
+    fichero.write('\\fancyfoot{}')
+    fichero.write('\n')
+    fichero.write('\\cfoot{\\thepage}')
+    fichero.write('\n')
+    fichero.write('\\lhead{MackTeck}')
+    fichero.write('\n')
+    fichero.write('\\rhead{\\today}')
+    fichero.write('\n')      
+    fichero.write("\\begin{document}")
+    fichero.write('\n')
+    fichero.write("\\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto] ")
+    fichero.write('\n')
+    s=0
+    numero=noEstadosNeg
+    salidos=[]
+    guardador=[]
+    while numero<=noEstados:
+        d=0
+        if numero in ftThom:  
+            if s==0:
+                fichero.write("\\node[state,initial] (q_0) {$q_0$};")
+                fichero.write('\n')
+                salidos.append(numero)
+                guardador.append(s)
+                s+=1
+            else:
+                for x in salidos:
+                    if numero in ftThom[x].values():
+                        if len(ftThom[x])==1:
+                            a='q_'+str(s)
+                            b='q_'+str(guardador[salidos.index(x)])
+                            a="\\node[state] ("+a+")[right=of "+b+"] {$"+a+"$};"  
+                        elif d==0:
+                            a='q_'+str(s)
+                            b='q_'+str(guardador[salidos.index(x)])
+                            a="\\node[state]("+a+") [above right=of "+b+"] {$"+a+"$};"  
+                            d+=1 
+                        else:
+                            a='q_'+str(s)
+                            b='q_'+str(guardador[salidos.index(x)])
+                            a="\\node[state]("+a+") [below right=of "+b+"] {$"+a+"$};"  
+                            d=0
+                fichero.write(a)
+                fichero.write('\n')
+                salidos.append(numero)
+                guardador.append(s)
+                s+=1
+        numero+=1   
+    a='q_'+str(s)
+    b='q_'+str(s-1)
+    a="\\node[state,accepting]("+a+") [right=of "+b+"] {$"+a+"$};"  
+    fichero.write(a)
+    fichero.write('\n')
+    salidos.append(s)  
+    guardador.append(s)
+    s=0
+    numero=noEstadosNeg
+    fichero.write("\\[path->]")
+    fichero.write('\n')
+    while numero<=noEstados:
+        if numero in ftThom: 
+            a='q_'+str(s)
+            a='('+a+')'
+            fichero.write(a) 
+            for key in ftThom[numero].keys():
+                a='q_'+str(s)
+                a='('+a+')'
+                b=ftThom[numero][key]
+                b='q_'+str(b)
+                if key=='ep' or key=='ep1':
+                    es="\\epsilon"
+                else:
+                    es=key
+                b="edge node {"+es+"} ("+b+")"
+                fichero.write(b)
+                fichero.write('\n')
+        s+=1
+        numero+=1
+
+    fichero.write("\\end{tikzpicture}")
+    fichero.write('\n')
+    fichero.write('\\end{document}')
+    fichero.close()
+    cadenaCompilacion = "cd " +  os.path.dirname( os.path.realpath(__file__) )+ " & pdflatex automata.tex"
+    subprocess.Popen(cadenaCompilacion, shell=True, stdout =subprocess.PIPE).stdout.read()
+    print ftThom
+ThompsonExp('ab|')  
 # Create your views here.
 
 class IndexView(TemplateView):
@@ -120,5 +375,9 @@ class IndexView(TemplateView):
         if request.method == "POST":
             screenname = request.POST.get("handle")  
             result=convertidor(screenname)
+            ThompsonExp(result)
+
         return render(request, 'Automata/index.html', {'result': result})
-        
+
+
+

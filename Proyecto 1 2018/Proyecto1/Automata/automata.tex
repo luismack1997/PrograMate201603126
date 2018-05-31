@@ -20,6 +20,11 @@
 \node[state] (q_4)[right=of q_3] {$q_4$};
 \node[state,accepting](q_5) [right=of q_4] {$q_5$};
 \[path->]
-(q_0) edge node {0} (q_1);
+(q_0)edge node {\epsilon} (q_0)
+edge node {\epsilon} (q_2)
+(q_1)edge node {a} (q_1)
+(q_2)edge node {\epsilon} (q_4)
+(q_3)edge node {b} (q_3)
+(q_4)edge node {\epsilon} (q_4)
 \end{tikzpicture}
 \end{document}

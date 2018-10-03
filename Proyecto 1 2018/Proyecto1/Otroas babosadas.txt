@@ -1,0 +1,8 @@
+
+
+ThompsonExp('ab|c.')
+Automata=NFA(numeroEstados,Estados,symbolos,noEstadosAc,estados_aceptacion,estadoInicial,fThompson)
+AutomataFinal=DFA()
+AutomataFinal.convert_from_nfa(Automata)
+AutomataFinal.print_dfa()
+# Create your views here.

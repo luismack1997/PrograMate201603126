@@ -400,6 +400,14 @@ class DFA:
 
 def dibujador(): 
     global ubicacionlatex
+    global numeroEstados
+    global symbolos
+    global estados_aceptacion
+    global fThompson
+    global Estados
+    global noEstadosAc
+    global estadoInicial
+    global funcionfinal
     ubicacionlatex=os.path.dirname( os.path.realpath(__file__) )+"\\"+ubicacionlatex
     fichero = open(ubicacionlatex, 'w')
     fichero.write('\\documentclass[11pt,twoside]{article}')
@@ -432,81 +440,16 @@ def dibujador():
     fichero.write('\n')
     fichero.write("\\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto] ")
     fichero.write('\n')
-    numero=noEstadosNeg
-    while numero<=noEstados:
-        if numero in ftThom:  
-            if s==0:
-                fichero.write("\\node[state,initial] (q_0) {$q_0$};")
-                fichero.write('\n')
-
-                s+=1
-            else:
-                for x in salidos:
-                    if numero in ftThom[x].values():
-                        if len(ftThom[x])==1:
-                            a='q_'+str(s)
-                            b='q_'+str(guardador[salidos.index(x)])
-                            a="\\node[state] ("+a+")[right=of "+b+"] {$"+a+"$};"  
-                        elif d==0:
-                            a='q_'+str(s)
-                            b='q_'+str(guardador[salidos.index(x)])
-                            a="\\node[state]("+a+") [above right=of "+b+"] {$"+a+"$};"  
-                            d+=1 
-                        else:
-                            a='q_'+str(s)
-                            b='q_'+str(guardador[salidos.index(x)])
-                            a="\\node[state]("+a+") [below right=of "+b+"] {$"+a+"$};"  
-                            d=0
-                fichero.write(a)
-                fichero.write('\n')
-                salidos.append(numero)
-                guardador.append(s)
-                s+=1
-        numero+=1   
-    a='q_'+str(s)
-    b='q_'+str(s-1)
-    a="\\node[state,accepting]("+a+") [right=of "+b+"] {$"+a+"$};"  
-    fichero.write(a)
-    fichero.write('\n')
-    salidos.append(s)  
-    guardador.append(s)
-    s=0
-    numero=noEstadosNeg
-    fichero.write("\\[path->]")
-    fichero.write('\n')
-    while numero<=noEstados:
-        if numero in ftThom: 
-            a='q_'+str(s)
-            a='('+a+')'
-            fichero.write(a) 
-            for key in ftThom[numero].keys():
-                a='q_'+str(s)
-                a='('+a+')'
-                b=ftThom[numero][key]
-                b='q_'+str(b)
-                if key=='ep' or key=='ep1':
-                    es="\\epsilon"
-                else:
-                    es=key
-                b="edge node {"+es+"} ("+b+")"
-                fichero.write(b)
-                fichero.write('\n')
-        s+=1
-        numero+=1
-
+    numero=estadoInicial
+    print fThompson
+    while numero<=numeroEstados:
+      print fThompson
     fichero.write("\\end{tikzpicture}")
     fichero.write('\n')
     fichero.write('\\end{document}')
     fichero.close()
     cadenaCompilacion = "cd " +  os.path.dirname( os.path.realpath(__file__) )+ " & pdflatex automata.tex"
     subprocess.Popen(cadenaCompilacion, shell=True, stdout =subprocess.PIPE).stdout.read() 
-
-ThompsonExp('ab|c.')
-Automata=NFA(numeroEstados,Estados,symbolos,noEstadosAc,estados_aceptacion,estadoInicial,fThompson)
-AutomataFinal=DFA()
-AutomataFinal.convert_from_nfa(Automata)
-AutomataFinal.print_dfa()
-# Create your views here.
 
 class IndexView(TemplateView):
     template_name='Automata/index.html'
@@ -522,10 +465,12 @@ class IndexView(TemplateView):
             global Estados
             global noEstadosAc
             global estadoInicial
+            global funcionfinal
             Automata=NFA(numeroEstados,Estados,symbolos,noEstadosAc,estados_aceptacion,estadoInicial,fThompson)
             AutomataFinal=DFA()
             AutomataFinal.convert_from_nfa(Automata)
-        return render(request, 'Automata/index.html', {'result': result})
+            AutomataFinal.print_dfa()
+        return render(request, 'Automata/index.html', {'result': result, 'numeroEstados':numeroEstados, 'estadoInicial':estadoInicial, 'fThompson':fThompson, 'funcionfinal':funcionfinal})
 
 
 

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+{% load staticfiles %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+{% block bg %}<link rel="stylesheet" type="text/css" href="/static/PE/style2.css"/>﻿{% endblock %}
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <!--Logo-->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-toggle="#topNavBar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'PE:index' %}">MTS</a>
+        </div>
+        {% block body1 %}
+        <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class=> 
+                        <a href="{% url 'PE:index' %}">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;
+                        Agregar Texto
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li class=> 
+                        <a href="{% url 'PE:index' %}">
+                        <span class="glyphicon glyphicon-scissors" aria-hidden="true"></span>&nbsp;
+                        Modificar Datos
+                        </a>
+                    </li>
+                </ul>
+        {% endblock %}
+            <ul class="nav navbar-nav navbar-right">
+                <li class=> 
+                    <a href="{% url 'PE:index' %}">
+                    <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>&nbsp;
+                    Ayuda
+                    </a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class=> 
+                    <a href="{% url 'PE:index' %}">
+                    <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;
+                    Contáctanos
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% load latexify %}
+
+
+
+
+<head>
+        {% include 'latexify/stylesheets.html' %}
+        <div class="w3-container" id="where">
+                <div class="w3-content" style="max-width:700px">
+                  <h1 class="w3-center w3-padding-16"><span class="w3-tag w3-wide"> Problema 61: </span></h1>
+        </div>
+        </div>
+
+        <div class="w3-container" id="where">
+                <div class="w3-content" style="max-width:700px">
+                  <h2 class="w3-center">Números Cíclicos de Figuras </h2>
+        </div>
+        </div>
+
+     </head>
+
+<body>
+
+        <div class="w3-container" id="about">
+                <div class="w3-content" style="max-width:1200px" >
+                  <h5 class="w3-justify"><span class="w3-tag w3-wide">Enunciado</span></h5>
+                  <p>Números Triangulares, Cuadrados, Pentágonos, Hexágonos, Heptágonos, y Octógonos son todos números de figuras (polígonos) que se generan por las siguientes fórmulas:
+                  </p>
+                  <li>Triangular: {% latexify 'P_{3,n}=\dfrac{n(n+1)}{2}' math_inline=True %}</li>
+                  <li>Cuadrados: {% latexify 'P_{4,n}=n^2' math_inline=True %}</li>
+                  <li>Pentagonales: {% latexify 'P_{5,n}=\dfrac{n(3n-1)}{2}' math_inline=True %}</li>
+                  <li>Hexagonales: {% latexify 'P_{6,n}=n(2n-1)' math_inline=True %}</li>
+                  <li>Heptagonal: {% latexify 'P_{7,n}=\dfrac{n(5n-3)}{2}' math_inline=True %}</li>
+                  <li>Octogonal: {% latexify 'P_{8,n}=n(3n-2)' math_inline=True %}</li>
+                  <p> El conjunto ordenado de tres números de 4-dígitos: 8128, 2882, 8281, tiene tres propiedades interesantes.<br>
+                        1. El conjunto es cíclico, de manera que los últimos dos dígitos de cada número son los primeros dos del siguiente (incluyendo el último número con el primero)<br>
+                    2. Cada tipo de polígono: triangular {% latexify '(P_{3,127}=8128)' math_inline=True %}, cuadrado {% latexify '(P_{4,91}=8221)' math_inline=True %}, y pentagonal 
+                    {% latexify '(P_{3,127}=8128)' math_inline=True %} es representado por un número diferente en el conjunto. <br>
+                3. Este es el único número de 4-dígitos con esta propiedad.</p>
+            <p> Encuentre la suma del único conjunto ordenado de seís números de 4-dígitos en donde cada tipo de polígono, es representado por un número diferente en el conjunto</p>
+                    <h5 class="w3-justify"><span class="w3-tag w3-wide">Solución</span></h5>
+                    <p>El codigo que resuelve este problema consta de 3 partes. La primera se encarga de verificar si el número ingresado es palíndromo o no. La 
+                        segunda, pasará el número a binario y finalmente la tercera parte se encargará de verificar si el número en binario también es palíndromo o no. Si es palindromo lo suma 
+                        y  si no lo es pasa al siguiente número. 
+                    </p>
+                    <h5 class="w3-justify"><span class="w3-tag w3-wide">Código</span></h5>
+                  <div class="w3-panel w3-leftbar w3-light-grey">
+                    <p><pre>{{context|safe}}</pre> </p>
+                  </div>
+                </div>
+              </div>
+
+
+{% include "latexify/scripts.html" %}
+</body>
+
+</html>

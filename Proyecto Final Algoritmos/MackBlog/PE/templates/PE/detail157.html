@@ -1,6 +1,10 @@
+<!DOCTYPE html>
+<html>
 {% load staticfiles %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
@@ -55,7 +59,48 @@
         </div>
     </div>
 </nav>
+{% load latexify %}
 
-{% block body2 %}
 
-{% endblock %}
+
+
+<head>
+        {% include 'latexify/stylesheets.html' %}
+        <div class="w3-container" id="where">
+                <div class="w3-content" style="max-width:700px">
+                  <h1 class="w3-center w3-padding-16"><span class="w3-tag w3-wide"> Problema 157: </span></h1>
+        </div>
+        </div>
+
+        <div class="w3-container" id="where">
+                <div class="w3-content" style="max-width:700px">
+                  <h2 class="w3-center">Resolviendo la ecuación difántica {% latexify '\dfrac{1}{a}+\dfrac{1}{b}=\dfrac{p}{10^n}' math_inline=True %} </h2>
+        </div>
+        </div>
+
+     </head>
+
+<body>
+
+        <div class="w3-container" id="about">
+                <div class="w3-content" style="max-width:1200px" >
+                  <h5 class="w3-justify"><span class="w3-tag w3-wide">Enunciado</span></h5>
+                  <p> Considere la ecuación diofántica {% latexify '\dfrac{1}{a}+\dfrac{1}{b}=\dfrac{p}{10^n}' math_inline=True %} con a, b, p, n enteros positivos y a ≤ b.</p>
+                  <p>¿Cuántas soluciones tiene esta ecuación para 1 ≤ n ≤ 9?</p> 
+                    <h5 class="w3-justify"><span class="w3-tag w3-wide">Solución</span></h5>
+                    <p>El codigo que resuelve este problema consta de 3 partes. La primera se encarga de verificar si el número ingresado es palíndromo o no. La 
+                        segunda, pasará el número a binario y finalmente la tercera parte se encargará de verificar si el número en binario también es palíndromo o no. Si es palindromo lo suma 
+                        y  si no lo es pasa al siguiente número. 
+                    </p>
+                    <h5 class="w3-justify"><span class="w3-tag w3-wide">Código</span></h5>
+                  <div class="w3-panel w3-leftbar w3-light-grey">
+                    <p><pre>{{context|safe}}</pre> </p>
+                  </div>
+                </div>
+              </div>
+
+
+{% include "latexify/scripts.html" %}
+</body>
+
+</html>

@@ -5,7 +5,8 @@
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 {% block bg %}<link rel="stylesheet" type="text/css" href="/static/PE/style2.css"/>﻿{% endblock %}
-
+<!DOCTYPE html>
+<html>
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <!--Logo-->
@@ -55,7 +56,9 @@
         </div>
     </div>
 </nav>
-
+{% load latexify %}
+{% include 'latexify/stylesheets.html' %}
+{% include "latexify/scripts.html" %}
 {% block body2 %}
 
 {% endblock %}

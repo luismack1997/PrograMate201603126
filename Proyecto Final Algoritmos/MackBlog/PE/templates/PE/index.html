@@ -1,0 +1,30 @@
+{% extends 'PE/base.html'%}
+
+{% block bg %}<link rel="stylesheet" type="text/css" href="/static/PE/style.css"/>﻿{% endblock %}
+
+{% block body1 %}
+<div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <li class=> 
+                <a href="{% url 'PE:index' %}">
+                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;
+                Convertir
+                </a>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav">
+            <li class=> 
+                <a href="{% url 'PE:index' %}">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;
+                    Ingresar
+                </a>
+            </li>
+        </ul>
+{% endblock %}
+
+{% block body2 %}
+<h3>Bienvenido a MackBlog</h3>
+{% for problema in all_problems %}
+<li><a href="{% url 'PE:detail' problema.numero%}"> Problema {{ problema.numero }}</a></li>
+{% endfor %}
+{% endblock %}

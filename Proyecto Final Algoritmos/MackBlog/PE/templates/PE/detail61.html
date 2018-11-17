@@ -100,14 +100,18 @@
                 3. Este es el único número de 4-dígitos con esta propiedad.</p>
             <p> Encuentre la suma del único conjunto ordenado de seís números de 4-dígitos en donde cada tipo de polígono, es representado por un número diferente en el conjunto</p>
                     <h5 class="w3-justify"><span class="w3-tag w3-wide">Solución</span></h5>
-                    <p>El codigo que resuelve este problema consta de 3 partes. La primera se encarga de verificar si el número ingresado es palíndromo o no. La 
-                        segunda, pasará el número a binario y finalmente la tercera parte se encargará de verificar si el número en binario también es palíndromo o no. Si es palindromo lo suma 
-                        y  si no lo es pasa al siguiente número. 
+                    <p>Para resolver este problema primero generamos una lista de todos los triangulares, cuadrados, etc... de cuatro dígitos. Posteriormente para cada triangular veremos si es posible encontrar otros 5 números que cumplan con las condiciones.
                     </p>
                     <h5 class="w3-justify"><span class="w3-tag w3-wide">Código</span></h5>
                   <div class="w3-panel w3-leftbar w3-light-grey">
                     <p><pre>{{context|safe}}</pre> </p>
                   </div>
+                  <h5 class="w3-justify"><span class="w3-tag w3-wide">Análisis del algoritmo</span></h5>
+                  <p>Como primero generamos las listas de los diferentes tipos de númeors, esto se tarda {% latexify '\mathcal{O}(m)' math_inline=True %}.</p>
+                  <p>La siguiente parte que hará el algoritmo es tomar un número triangular, y buscará en cada una de las listas algún valores que se acomoden a las condiciones. Si no encuentra una séxtupla que cumpla, pasará al siguiente número en la lista. </p>
+                  <p>El peor caso será entonces, que para cada valor tenga que recorrer todas las listas para probar que no se puede formar una séxtupla con dicho valor. Si {% latexify '\mathcal{O}(n)' math_inline=True %} es lo que tarda por recorrer la lista más grande. Entonces se tardará {% latexify '\mathcal{O}(n^6)' math_inline=True %} en recorrerlas todas. Dando 
+                      un tiempo de ejecución de {% latexify '\mathcal{O}(n^6)+\mathcal{O}(m)' math_inline=True %}
+                  </p>
                 </div>
               </div>
 

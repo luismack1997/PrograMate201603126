@@ -1,8 +1,13 @@
 import os
+#cargamos el archivo y declaramos las matrices que irán cambiando de valor.
 fichero=file(os.path.dirname(os.path.realpath(__file__))+"\\Ejercicio96.txt","r")
 matrizOriginal=[[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,]]
 matriz=[[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]]
+
+#el vector No posibles guardará los valores que no puede llevar una caslla
 NoPosibles=[]
+
+#nuestra primera función se encargará de encontrar los valores que no pueden ir en una casilla
 def Resolvedor(x,y):
     global matriz
     global NoPosibles
@@ -111,6 +116,9 @@ def Resolvedor(x,y):
     NoPosibles=[]
     return Posibles
 
+#nuestra segunda función resolverá el sudoku como tal. Para cada casilla verá que valores son posibles. Si hay alguno pone el menor
+#de lo contrario se regresa a la casilla anterior y pasa al siguiente valor en el vector posible. Cuando haya resuelto el SuDoku
+#resolvedor retornará los 3 números que queremos
 def Resolvedor2():
     global matriz
     global matrizOriginal
@@ -164,6 +172,8 @@ def Resolvedor2():
 
 contador=1
 sumatotal=0
+
+#guardamos cada SuDoku y lo resolvemos
 for line in fichero:
     if contador%10==1 and contador!=1:
         sumatotal+=Resolvedor2()
@@ -172,8 +182,11 @@ for line in fichero:
             matriz[(contador-2)%10][z]=int(line[z])
             matrizOriginal[(contador-2)%10][z]=int(line[z])
     contador+=1
+
 #Sumamos el último sudoku que no se sumó. 
 sumatotal+=Resolvedor2()
 
 fichero.close()
+
+#imprimimos la suma de los tres valores en el primer cuadrado de 3*3
 print sumatotal

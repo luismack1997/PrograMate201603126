@@ -90,13 +90,18 @@
                     <h5 class="w3-justify"><span class="w3-tag w3-wide">Solución</span></h5>
                     <p>El codigo que resuelve este problema consta de 3 partes. La primera se encarga de verificar si el número ingresado es palíndromo o no. La 
                         segunda, pasará el número a binario y finalmente la tercera parte se encargará de verificar si el número en binario también es palíndromo o no. Si es palindromo lo suma 
-                        y  si no lo es pasa al siguiente número. A continuación se muestra el código.
+                        y  si no lo es pasa al siguiente número.
                     </p>
 
                     <h5 class="w3-justify"><span class="w3-tag w3-wide">Código</span></h5>
                   <div class="w3-panel w3-leftbar w3-light-grey">
                     <p><pre>{{context |safe}}</pre></p>
                   </div>
+                  <h5 class="w3-justify"><span class="w3-tag w3-wide">Análisis del algoritmo</span></h5>
+                  <p>En cuanto al análisis del tiempo de ejecución, digamos que la sentencia que está dentro del tercer ciclo for toma  {% latexify '\\mathcal{O}(1)' math_inline=True %}
+                      en ejecutarse, como estas lineas están dentro de un ciclo, se ejecutarán n veces esto es {% latexify '\\mathcal{O}(n)' math_inline=True %}. Posteriormente, tenemos otro conjunto de k instrucciones. Y finalmente 2 ciclos for anidados. Esto hace que sean 3 ciclos for anidados dando una complejidad de 
+                      {% latexify '\\mathcal{O}(n^3)' math_inline=True %}.
+                    </p>
                 </div>
               </div>
 

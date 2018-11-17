@@ -92,16 +92,21 @@
                   <p> EL archivo de 6K, sudoku.txt contiene cincuenta Su Dokus diferentes, todos con una única solución.</p>
                   <p> Resolviendo todos los Su Dokus encuentre la suma de los números de 3-dígitos que se encuentran en la esquina superior izquierda de cada cuadrado resuelto. </p>
                   <h5 class="w3-justify"><span class="w3-tag w3-wide">Solución</span></h5>
-                    <p>El codigo que resuelve este problema consta de 3 partes. La primera se encarga de verificar si el número ingresado es palíndromo o no. La 
-                        segunda, pasará el número a binario y finalmente la tercera parte se encargará de verificar si el número en binario también es palíndromo o no. Si es palindromo lo suma 
-                        y  si no lo es pasa al siguiente número. 
+                    <p>La idea principal del código, es ver si es posible poner un número. Si lo es pone el menor número posible. De lo contrario, si no puede poner ningún número, regresa a la casilla anterior y la cambia por el número siguiente. Al realizar este procedimiento varias veces cada casilla termina con el número que debe llevar, resolviendo el SuDoku.
                     </p>
                     <h5 class="w3-justify"><span class="w3-tag w3-wide">Código</span></h5>
                   <div class="w3-panel w3-leftbar w3-light-grey">
                     {% csrf_token %}
                     <p><pre>{{context|safe}}</pre></p>
                   </div>
-                </div>
+                  <h5 class="w3-justify"><span class="w3-tag w3-wide">Análisis del algoritmo</span></h5>
+                  <p>Notemos que el tiempo que tarde en resolver todos los SuDokus debe ser menor o igual al tiempo que se tarde en resolver el caso promedio multiplicado por una constante. (Haciendo la suposición claro que los SuDokus son aleatorios) Esto es {% latexify '\Theta(f(x))' math_inline=True %}.
+                      Donde {% latexify 'f(x)' math_inline=True %} es lo que tarda en resolver el SuDoku Promedio.</p>
+                    <p>¿Cuánto tarda en resolver el SuDoku promedio? Suponga que el SuDoku Promedio tarda lo que tarde en resolver la primera línea. Luego, si en cada caso hay {% latexify 'n' math_inline=True %} valores posibles, entonces en realidad lo que tenemos son 9 ciclos anidados de orden {% latexify 'n' math_inline=True %}.
+                        Si {% latexify '\Theta(1)' math_inline=True %} es lo que tarda el algoritmo en encontrar los valores posibles por casilla. Entonces {% latexify 'f(x)=\Theta(n^9)' math_inline=True %}  es lo que tarda en resolver un SuDoku. Esto implica que en resolver los 50 se tardará 50 veces lo anterior, que sigue siendo del mismo orden. 
+                        Por lo tanto la complejidad del algoritmo es {% latexify '\Theta(n^9)' math_inline=True %} 
+                    </p> 
+                    </div>
               </div>
 
 
